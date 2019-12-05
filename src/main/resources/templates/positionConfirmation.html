@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <!--<link href="css/battleField.css" rel="stylesheet" type="text/css" media="all">-->
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <p>お互いの準備ができました!攻撃しましょう!</p>
-<form action='fight' method='post'>
+<form action='fight' method='post' th:object="${attackPosition}">
     <p>縦(0~4)<br>
-        <input type="text" name="attackVertical"></p>
+        <input type="text" name="attackVertical" th:field="*{attackVertical}"></p>
     <p>横(0~4)<br>
-        <input type="text" name="attackSide"></p>
+        <input type="text" name="attackSide" th:field="*{attackSide}"></p>
     <button type='submit'>送信する</button>
 </form><br>
 <p>あなたの陣地<br></p>
