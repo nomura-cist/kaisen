@@ -1,8 +1,9 @@
 package com.example.kaisen.controller;
 
 import com.example.kaisen.position.AttackPosition;
-import com.example.kaisen.position.EnemyPosition;
 import com.example.kaisen.position.MyPosition;
+import com.example.kaisen.service.PositionSettingService;
+import com.example.kaisen.service.VictoryOrDefeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.io.IOException;
-import java.util.Random;
 
 @Controller
 public class PositionController {
@@ -25,10 +23,10 @@ public class PositionController {
     String[][] enemyBase = new String[5][5];
 
     @Autowired
-    private EnemyPosition enemyPosition;
+    private VictoryOrDefeatService victoryOrDefeatService;
 
     @Autowired
-    private MyPosition myPosition;
+    private PositionSettingService positionSettingService;
 
     @GetMapping("/positionSetting")
     public String getPosition(Model model, @ModelAttribute @Validated MyPosition myPosition) {
@@ -48,16 +46,12 @@ public class PositionController {
         }
 
         //自分の位置設定
-        base[myPosition.getVertical()][myPosition.getSide()] = "W";
+        positionSettingService.myPositionSetting(myPosition,base);
         model.addAttribute("base",base);
 
         //敵の戦艦の位置を乱数で決定
-        Random random = new Random();
         model.addAttribute("enemyBase",enemyBase);
-        enemyPosition.setEnemyVertical(random.nextInt(5));
-        enemyPosition.setEnemySide(random.nextInt(5));
-//        enemyPosition.setEnemyVertical(0);
-//        enemyPosition.setEnemySide(0);
+        positionSettingService.enemyPositionSetting();
 
         model.addAttribute("attackPosition", new AttackPosition());
 
@@ -80,51 +74,11 @@ public class PositionController {
             return "mistake";
         }
 
-            //敵の攻撃位置を乱数で決定
-            Random random = new Random();
-            int enemyAttackVertical = random.nextInt(5);
-            int enemyAttackSide = random.nextInt(5);
+        String hantei = victoryOrDefeatService.shohai(attackPosition,base,enemyBase);
+        model.addAttribute("enemyBase", enemyBase);
+        model.addAttribute("base", base);
 
-            //勝ち
-            if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide()) {
-
-                enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
-                model.addAttribute("enemyBase", enemyBase);
-                model.addAttribute("base", base);
-
-                return "win";
-
-                //負け
-            } else if (enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
-
-                base[enemyAttackVertical][enemyAttackSide] = "x";
-                model.addAttribute("enemyBase", enemyBase);
-                model.addAttribute("base", base);
-
-                return "lose";
-
-                //引き分け
-            } else if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide() &&
-                    enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
-
-                enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
-                model.addAttribute("enemyBase", enemyBase);
-
-                base[enemyAttackVertical][enemyAttackSide] = "x";
-                model.addAttribute("base", base);
-
-                return "draw";
-
-            } else {
-
-                enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "・";
-                model.addAttribute("enemyBase", enemyBase);
-
-                base[enemyAttackVertical][enemyAttackSide] = "・";
-                model.addAttribute("base", base);
-
-                return "miss";
-            }
+        return hantei;
 
     }
 
