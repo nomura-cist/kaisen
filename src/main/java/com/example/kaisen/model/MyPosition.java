@@ -1,4 +1,4 @@
-package com.example.kaisen.position;
+package com.example.kaisen.model;
 
 import org.springframework.stereotype.Component;
 

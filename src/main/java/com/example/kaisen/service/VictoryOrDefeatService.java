@@ -1,8 +1,8 @@
 package com.example.kaisen.service;
 
-import com.example.kaisen.position.AttackPosition;
-import com.example.kaisen.position.EnemyPosition;
-import com.example.kaisen.position.MyPosition;
+import com.example.kaisen.model.AttackPosition;
+import com.example.kaisen.model.EnemyPosition;
+import com.example.kaisen.model.MyPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

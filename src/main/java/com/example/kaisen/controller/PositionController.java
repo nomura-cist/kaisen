@@ -1,8 +1,9 @@
 package com.example.kaisen.controller;
 
-import com.example.kaisen.position.AttackPosition;
-import com.example.kaisen.position.MyPosition;
+import com.example.kaisen.model.AttackPosition;
+import com.example.kaisen.model.MyPosition;
 import com.example.kaisen.service.PositionSettingService;
+import com.example.kaisen.service.SignService;
 import com.example.kaisen.service.VictoryOrDefeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,17 +29,35 @@ public class PositionController {
     @Autowired
     private PositionSettingService positionSettingService;
 
+    @Autowired
+    private SignService signService;
+
     @GetMapping("/positionSetting")
     public String getPosition(Model model, @ModelAttribute @Validated MyPosition myPosition) {
 
-        model.addAttribute("enemyBase", enemyBase = new String[5][5]);
-        model.addAttribute("base", base = new String[5][5]);
+            model.addAttribute("enemyBase", enemyBase = new String[5][5]);
+            model.addAttribute("base", base = new String[5][5]);
 
+            return "positionSetting";
 
-        return "positionSetting";
     }
 
+
     @PostMapping("/positionSetting")
+    public String postPosition(Model model, @ModelAttribute @Validated MyPosition myPosition, String userId, String passphrase) {
+
+        if (signService.doSignIn(userId, passphrase)) {
+
+            model.addAttribute("enemyBase", enemyBase = new String[5][5]);
+            model.addAttribute("base", base = new String[5][5]);
+
+            return "positionSetting";
+        }
+
+        return "signin";
+    }
+
+    @PostMapping("/positionConfirmation")
     public String postPosition(Model model, @ModelAttribute @Validated MyPosition myPosition, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -81,5 +100,8 @@ public class PositionController {
         return hantei;
 
     }
+
+    @GetMapping("/SignIn")
+    public String signin(Model model) {return "signin";}
 
 }

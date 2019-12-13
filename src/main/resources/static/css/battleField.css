@@ -12,7 +12,7 @@
 
 /*.text-input {*/
 
-    /*!*position: relative;*!*/
+    /*!*model: relative;*!*/
     /*margin-top: 100px;*/
 /*}*/
 
@@ -29,7 +29,7 @@
 /*}*/
 
 /*input[type="text"] + label {*/
-    /*position: absolute;*/
+    /*model: absolute;*/
     /*!*top: 0;*!*/
     /*left: 0;*/
     /*!*bottom: 0;*!*/

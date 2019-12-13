@@ -7,7 +7,7 @@
 </head>
 <body>
 <p>あなたの戦艦の位置を決めてください</p>
-<form action='positionSetting' method='post' th:object="${myPosition}">
+<form action='positionConfirmation' method='post' th:object="${myPosition}">
 
     <p>縦(0~4)<br>
     <input type="text" name="vertical" th:field="*{vertical}"></p>
