@@ -2,8 +2,10 @@ package com.example.kaisen.controller;
 
 import com.example.kaisen.model.AttackPosition;
 import com.example.kaisen.model.MyPosition;
+import com.example.kaisen.model.UserRecode;
 import com.example.kaisen.service.PositionSettingService;
 import com.example.kaisen.service.SignService;
+import com.example.kaisen.service.UserRecodeService;
 import com.example.kaisen.service.VictoryOrDefeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class PositionController {
@@ -32,6 +35,15 @@ public class PositionController {
     @Autowired
     private SignService signService;
 
+    @Autowired
+    private HttpSession httpSession;
+
+    @Autowired
+    private UserRecodeService userRecodeService;
+
+    @Autowired
+    private UserRecode userRecode;
+
     @GetMapping("/positionSetting")
     public String getPosition(Model model, @ModelAttribute @Validated MyPosition myPosition) {
 
@@ -46,8 +58,14 @@ public class PositionController {
     @PostMapping("/positionSetting")
     public String postPosition(Model model, @ModelAttribute @Validated MyPosition myPosition, String userId, String passphrase) {
 
+        System.out.println("識別番号："+httpSession.getId());
+
+        httpSession.setAttribute("userId",userId);
+
+        //ユーザ認証
         if (signService.doSignIn(userId, passphrase)) {
 
+            //敵陣地と自分の陣地をmodelに登録
             model.addAttribute("enemyBase", enemyBase = new String[5][5]);
             model.addAttribute("base", base = new String[5][5]);
 
@@ -97,11 +115,24 @@ public class PositionController {
         model.addAttribute("enemyBase", enemyBase);
         model.addAttribute("base", base);
 
+        String userId = (String)httpSession.getAttribute("userId");
+
+        int rowNumber = userRecodeService.insert(userRecode,userId);
+
         return hantei;
 
     }
 
     @GetMapping("/SignIn")
     public String signin(Model model) {return "signin";}
+
+    @GetMapping("/recode")
+    public String recode(Model model) {
+
+
+
+        //todo recode.htmlの作成
+        return "recode";
+    }
 
 }

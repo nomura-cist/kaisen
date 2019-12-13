@@ -2,6 +2,7 @@ package com.example.kaisen.service;
 
 import com.example.kaisen.model.EnemyPosition;
 import com.example.kaisen.model.MyPosition;
+import com.example.kaisen.model.UserRecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,15 @@ public class PositionSettingService {
     @Autowired
     private EnemyPosition enemyPosition;
 
+    @Autowired
+    private UserRecode userRecode;
+
+    int i = 0;
+
     public void myPositionSetting(MyPosition myPosition, String[][] base) {
+
+        i += 1;
+        userRecode.setPlayTime(i);
 
         //自分の位置設定
         base[myPosition.getVertical()][myPosition.getSide()] = "W";
