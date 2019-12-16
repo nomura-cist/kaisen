@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class PositionController {
@@ -128,9 +129,10 @@ public class PositionController {
 
     @GetMapping("/recode")
     public String recode(Model model) {
+        System.out.println((String)httpSession.getAttribute("userId"));
+        List<UserRecode> userRecodeList = userRecodeService.selectMany((String)httpSession.getAttribute("userId"));
 
-
-
+        model.addAttribute("userRecodeList",userRecodeList);
         //todo recode.htmlの作成
         return "recode";
     }

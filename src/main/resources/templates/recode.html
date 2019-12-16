@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>タイトル</th>
+    </tr>
+    <tr th:each="userRecode:${userRecodeList}">
+        <td th:text="${userRecode.handling}"></td>
+    </tr>
+</table>
+</body>
+</html>

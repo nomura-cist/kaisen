@@ -34,7 +34,7 @@ public class UserRecodeRepository implements IUserRecodeRepository{
         List<Map<String,Object>> getList = jdbcTemplate.queryForList("select * from USERRECODE " +
                 "inner join AUTHEN " +
                 "on USERRECODE.USERID = AUTHEN.USER_ID " +
-                "where AUTHEN.USER_ID = ?");
+                "where AUTHEN.USER_ID = ?",userId);
 
         List<UserRecode> userRecodeList = new ArrayList<>();
 
@@ -42,7 +42,12 @@ public class UserRecodeRepository implements IUserRecodeRepository{
 
             UserRecode userRecode = new UserRecode();
 
-            userRecode.setHandling((String)map.get("handling"));
+            userRecode.setHandling((Integer) map.get("handling"));
+            userRecode.setHandling((Integer) map.get("hantei"));
+            userRecode.setHandling((Integer) map.get("playtime"));
+            userRecodeList.add(userRecode);
         }
+
+        return userRecodeList;
     }
 }
