@@ -43,8 +43,8 @@ public class UserRecodeRepository implements IUserRecodeRepository{
             UserRecode userRecode = new UserRecode();
 
             userRecode.setHandling((Integer) map.get("handling"));
-            userRecode.setHandling((Integer) map.get("hantei"));
-            userRecode.setHandling((Integer) map.get("playtime"));
+            userRecode.setHantei((Integer) map.get("hantei"));
+            userRecode.setPlayTime((Integer) map.get("playtime"));
             userRecodeList.add(userRecode);
         }
 

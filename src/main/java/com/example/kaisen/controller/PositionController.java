@@ -113,12 +113,9 @@ public class PositionController {
         }
 
         String hantei = victoryOrDefeatService.shohai(attackPosition,base,enemyBase);
+
         model.addAttribute("enemyBase", enemyBase);
         model.addAttribute("base", base);
-
-        String userId = (String)httpSession.getAttribute("userId");
-
-        int rowNumber = userRecodeService.insert(userRecode,userId);
 
         return hantei;
 

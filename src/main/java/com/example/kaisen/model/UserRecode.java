@@ -8,6 +8,7 @@ public class UserRecode {
     private int handling;
     private int hantei;
     private int playTime;
+    private String hanteiCh;
 
     public UserRecode() {
 
@@ -27,7 +28,16 @@ public class UserRecode {
     }
 
     public void setHantei(int hantei) {
+
         this.hantei = hantei;
+
+        if (hantei==0) {
+            this.hanteiCh="勝ち";
+        }else if (hantei==1) {
+            this.hanteiCh="負け";
+        }else {
+            this.hanteiCh="引き分け";
+        }
     }
 
     public int getPlayTime() {

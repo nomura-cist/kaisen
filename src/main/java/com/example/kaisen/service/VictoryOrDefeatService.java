@@ -7,6 +7,7 @@ import com.example.kaisen.model.UserRecode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import java.util.Random;
 
 @Component
@@ -20,6 +21,12 @@ public class VictoryOrDefeatService {
 
     @Autowired
     private UserRecode userRecode;
+
+    @Autowired
+    private HttpSession httpSession;
+
+    @Autowired
+    private UserRecodeService userRecodeService;
 
     private int i = 0;
 
@@ -40,6 +47,10 @@ public class VictoryOrDefeatService {
 
             userRecode.setHantei(0);
 
+            String userId = (String)httpSession.getAttribute("userId");
+
+            int rowNumber = userRecodeService.insert(userRecode,userId);
+
             return "win";
 
             //負け
@@ -48,6 +59,11 @@ public class VictoryOrDefeatService {
             base[enemyAttackVertical][enemyAttackSide] = "x";
 
             userRecode.setHantei(1);
+
+            String userId = (String)httpSession.getAttribute("userId");
+
+            int rowNumber = userRecodeService.insert(userRecode,userId);
+
 
             return "lose";
 
@@ -59,6 +75,11 @@ public class VictoryOrDefeatService {
             base[enemyAttackVertical][enemyAttackSide] = "x";
 
             userRecode.setHantei(2);
+
+            String userId = (String)httpSession.getAttribute("userId");
+
+            int rowNumber = userRecodeService.insert(userRecode,userId);
+
 
             return "draw";
 
