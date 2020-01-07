@@ -9,4 +9,6 @@ public interface IUserRecodeRepository {
     public int insert(UserRecode userRecode,String userId);
 
     public List<UserRecode> selectMany(String userId);
+    
+    public int selectOne(String userId);
 }

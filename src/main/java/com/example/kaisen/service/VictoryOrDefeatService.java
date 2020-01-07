@@ -39,6 +39,8 @@ public class VictoryOrDefeatService {
         Random random = new Random();
         int enemyAttackVertical = random.nextInt(5);
         int enemyAttackSide = random.nextInt(5);
+//        int enemyAttackVertical = 0;
+//        int enemyAttackSide = 0;
 
         //勝ち
         if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide()) {
@@ -49,7 +51,11 @@ public class VictoryOrDefeatService {
 
             String userId = (String)httpSession.getAttribute("userId");
 
+            System.out.println(userRecode.getHandling());
+
             int rowNumber = userRecodeService.insert(userRecode,userId);
+
+            i = 0;
 
             return "win";
 
@@ -64,6 +70,7 @@ public class VictoryOrDefeatService {
 
             int rowNumber = userRecodeService.insert(userRecode,userId);
 
+            i = 0;
 
             return "lose";
 
@@ -80,6 +87,7 @@ public class VictoryOrDefeatService {
 
             int rowNumber = userRecodeService.insert(userRecode,userId);
 
+            i = 0;
 
             return "draw";
 

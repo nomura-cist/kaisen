@@ -1,5 +1,7 @@
 package com.example.kaisen.model;
 
+import javax.validation.constraints.Pattern;
+
 public class Authn {
 
     private String userId;

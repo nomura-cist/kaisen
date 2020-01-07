@@ -11,11 +11,12 @@
 
     <p>縦(0~4)<br>
     <input type="text" name="vertical" th:field="*{vertical}"></p>
+
     <p>横(0~4)<br>
     <input type="text" name="side" th:field="*{side}"></p>
     <ul>
         <li th:each="error:${#fields.detailedErrors()}">
-            <span th:text="${error.message}">Error message</span>
+            <span th:text="#{error.message2}">Error message</span>
         </li>
     </ul>
     <button type='submit'>送信する</button>

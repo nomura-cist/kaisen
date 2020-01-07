@@ -8,6 +8,7 @@ import com.example.kaisen.service.SignService;
 import com.example.kaisen.service.UserRecodeService;
 import com.example.kaisen.service.VictoryOrDefeatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,8 @@ public class PositionController {
     @GetMapping("/positionSetting")
     public String getPosition(Model model, @ModelAttribute @Validated MyPosition myPosition) {
 
+        userRecode.setHandling(0);
+
             model.addAttribute("enemyBase", enemyBase = new String[5][5]);
             model.addAttribute("base", base = new String[5][5]);
 
@@ -59,18 +62,23 @@ public class PositionController {
     @PostMapping("/positionSetting")
     public String postPosition(Model model, @ModelAttribute @Validated MyPosition myPosition, String userId, String passphrase) {
 
-        System.out.println("識別番号："+httpSession.getId());
-
         httpSession.setAttribute("userId",userId);
 
-        //ユーザ認証
-        if (signService.doSignIn(userId, passphrase)) {
+        try {
+            //ユーザ認証
+            if (signService.doSignIn(userId, passphrase)) {
 
-            //敵陣地と自分の陣地をmodelに登録
-            model.addAttribute("enemyBase", enemyBase = new String[5][5]);
-            model.addAttribute("base", base = new String[5][5]);
+                //敵陣地と自分の陣地をmodelに登録
+                model.addAttribute("enemyBase", enemyBase = new String[5][5]);
+                model.addAttribute("base", base = new String[5][5]);
 
-            return "positionSetting";
+                return "positionSetting";
+            }
+        }catch (EmptyResultDataAccessException e) {
+
+            model.addAttribute("error","もう一度入力してください");
+
+            return "signin";
         }
 
         return "signin";
@@ -80,6 +88,7 @@ public class PositionController {
     public String postPosition(Model model, @ModelAttribute @Validated MyPosition myPosition, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
+
             return "positionSetting";
         }
 
@@ -111,11 +120,15 @@ public class PositionController {
 
             return "mistake";
         }
-
+        System.out.println(userRecode.getHandling());
         String hantei = victoryOrDefeatService.shohai(attackPosition,base,enemyBase);
 
         model.addAttribute("enemyBase", enemyBase);
         model.addAttribute("base", base);
+
+//        String userId = (String)httpSession.getAttribute("userId");
+//
+//        int rowNumber = userRecodeService.insert(userRecode,userId);
 
         return hantei;
 
@@ -126,8 +139,21 @@ public class PositionController {
 
     @GetMapping("/recode")
     public String recode(Model model) {
-        System.out.println((String)httpSession.getAttribute("userId"));
         List<UserRecode> userRecodeList = userRecodeService.selectMany((String)httpSession.getAttribute("userId"));
+
+        String userId = (String)httpSession.getAttribute("userId");
+
+        String hantei = userRecode.getHanteiCh();
+
+        int playTime = userRecode.getPlayTime();
+
+        model.addAttribute("playTime",playTime);
+
+        model.addAttribute("hantei",hantei);
+
+        model.addAttribute("userRecode",userRecode);
+
+        model.addAttribute("userId",userId);
 
         model.addAttribute("userRecodeList",userRecodeList);
         //todo recode.htmlの作成

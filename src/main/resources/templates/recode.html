@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+        span { display: inline-block; }
+    </style>
 </head>
 <body>
+<p>[[${userId}]]さんの[[${hantei}]]です</p>
+<p><a th:href="@{'/positionSetting'}">ゲーム再開</a></p>
 <ul th:each="userRecode:${userRecodeList}">
-    <li th:text="${userRecode.playTime}">
-
+    <!--<li th:text="${userRecode.playTime} +'回目'+' '+'プレイヤーが'+${userRecode.handling}+'手目で'+${userRecode.hanteiCh}+'ました'"></li>-->
+    <li class="sample1">
+        <!--<span th:text="${userRecode.playTime}+'回目'" + th:if="${userRecode.playTime eq playTime}+''"></span>-->
+        <span th:if="${userRecode.playTime == playTime}"><p>今回</p></span>
+        <span th:if="${userRecode.playTime != playTime}"><p>[[${userRecode.playTime}]]回目</p></span>
+        <span th:if="${userRecode.hantei eq 0}"><p>プレイヤーが</p></span>
+        <span th:if="${userRecode.hantei eq 1}"><p>CPUが</p></span>
+        <span th:text="${userRecode.handling}+'手目で'"></span>
+        <span th:if="${userRecode.hantei eq 0}"><p>勝ちました</p></span>
+        <span th:if="${userRecode.hantei eq 1}"><p>勝ちました</p></span>
+        <span th:if="${userRecode.hantei eq 2}"><p>引き分けました</p></span>
     </li>
 </ul>
 </body>
-</html>

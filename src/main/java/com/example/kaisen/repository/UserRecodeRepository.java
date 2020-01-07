@@ -50,4 +50,14 @@ public class UserRecodeRepository implements IUserRecodeRepository{
 
         return userRecodeList;
     }
+
+    @Override
+    public int selectOne(String userId) {
+
+        String count = "select count(*) from USERRECODE where USERID = ?";
+
+        int playTime = jdbcTemplate.queryForObject(count,new Object[]{ userId },Integer.class);
+
+        return playTime;
+    }
 }

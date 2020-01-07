@@ -32,11 +32,11 @@ public class UserRecode {
         this.hantei = hantei;
 
         if (hantei==0) {
-            this.hanteiCh="勝ち";
+            this.setHanteiCh("勝ち");
         }else if (hantei==1) {
-            this.hanteiCh="負け";
+            this.setHanteiCh("負け");
         }else {
-            this.hanteiCh="引き分け";
+            this.setHanteiCh("引き分け");
         }
     }
 
@@ -46,5 +46,13 @@ public class UserRecode {
 
     public void setPlayTime(int playTime) {
         this.playTime = playTime;
+    }
+
+    public String getHanteiCh() {
+        return hanteiCh;
+    }
+
+    public void setHanteiCh(String hanteiCh) {
+        this.hanteiCh = hanteiCh;
     }
 }
