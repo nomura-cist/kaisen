@@ -37,13 +37,77 @@ public class VictoryOrDefeatService {
 
         //敵の攻撃位置を乱数で決定
         Random random = new Random();
-        int enemyAttackVertical = random.nextInt(5);
-        int enemyAttackSide = random.nextInt(5);
-//        int enemyAttackVertical = 0;
-//        int enemyAttackSide = 0;
+        //int enemyAttackVertical = random.nextInt(5);
+        //int enemyAttackSide = random.nextInt(5);
+        int enemyAttackVertical = 0;
+        int enemyAttackSide = 0;
 
         //勝ち
-        if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide()) {
+//        if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide()) {
+//
+//            enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
+//
+//            userRecode.setHantei(0);
+//
+//            String userId = (String)httpSession.getAttribute("userId");
+//
+//            System.out.println(userRecode.getHandling());
+//
+//            int rowNumber = userRecodeService.insert(userRecode,userId);
+//
+//            i = 0;
+//
+//            return "win";
+
+         if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide() &&
+                enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
+
+            enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
+            base[enemyAttackVertical][enemyAttackSide] = "x";
+
+            userRecode.setHantei(2);
+
+            String userId = (String)httpSession.getAttribute("userId");
+
+            int rowNumber = userRecodeService.insert(userRecode,userId);
+
+            i = 0;
+
+            return "draw";
+
+            //負け
+        } else if (enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
+
+             base[enemyAttackVertical][enemyAttackSide] = "x";
+
+             userRecode.setHantei(1);
+
+             String userId = (String) httpSession.getAttribute("userId");
+
+             int rowNumber = userRecodeService.insert(userRecode, userId);
+
+             i = 0;
+
+             return "lose";
+
+             //引き分け
+//        } else if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide() &&
+//                enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
+//
+//            enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
+//            base[enemyAttackVertical][enemyAttackSide] = "x";
+//
+//            userRecode.setHantei(2);
+//
+//            String userId = (String)httpSession.getAttribute("userId");
+//
+//            int rowNumber = userRecodeService.insert(userRecode,userId);
+//
+//            i = 0;
+//
+//            return "draw";
+
+         }else if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide()) {
 
             enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
 
@@ -59,37 +123,6 @@ public class VictoryOrDefeatService {
 
             return "win";
 
-            //負け
-        } else if (enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
-
-            base[enemyAttackVertical][enemyAttackSide] = "x";
-
-            userRecode.setHantei(1);
-
-            String userId = (String)httpSession.getAttribute("userId");
-
-            int rowNumber = userRecodeService.insert(userRecode,userId);
-
-            i = 0;
-
-            return "lose";
-
-            //引き分け
-        } else if (attackPosition.getAttackVertical() == enemyPosition.getEnemyVertical() && attackPosition.getAttackSide() == enemyPosition.getEnemySide() &&
-                enemyAttackVertical == myPosition.getVertical() && enemyAttackSide == myPosition.getSide()) {
-
-            enemyBase[attackPosition.getAttackVertical()][attackPosition.getAttackSide()] = "×";
-            base[enemyAttackVertical][enemyAttackSide] = "x";
-
-            userRecode.setHantei(2);
-
-            String userId = (String)httpSession.getAttribute("userId");
-
-            int rowNumber = userRecodeService.insert(userRecode,userId);
-
-            i = 0;
-
-            return "draw";
 
         } else {
 

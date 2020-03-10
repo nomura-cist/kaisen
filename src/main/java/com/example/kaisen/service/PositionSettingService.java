@@ -48,10 +48,10 @@ public class PositionSettingService {
 
         //敵の戦艦の位置を乱数で決定
         Random random = new Random();
-        enemyPosition.setEnemyVertical(random.nextInt(5));
-        enemyPosition.setEnemySide(random.nextInt(5));
-//        enemyPosition.setEnemyVertical(0);
-//        enemyPosition.setEnemySide(0);
+        //enemyPosition.setEnemyVertical(random.nextInt(5));
+        //enemyPosition.setEnemySide(random.nextInt(5));
+        enemyPosition.setEnemyVertical(0);
+        enemyPosition.setEnemySide(0);
     }
 
 }
